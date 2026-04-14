@@ -60,8 +60,8 @@ app.use(cors({
   preflightContinue: true
 }));
 
-// parseo del body
-app.use(express.json());
+// parseo del body (se asegura decodificación UTF-8)
+app.use(express.json({ type: ['application/json', 'application/*+json'] }));
 app.use(express.urlencoded({ extended: true }));
 
 
