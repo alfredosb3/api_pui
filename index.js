@@ -51,7 +51,6 @@ app.use('/api', apiLimiter);
 // app.use( cors() );
 app.use(cors({
   origin: [
-    "http://localhost:4200",
     "https://www.plataformadebusqueda.gob.mx/"
   ],
   credentials: true,
