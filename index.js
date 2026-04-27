@@ -4,17 +4,17 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+
 const app = express();
+
 
 // Configuración para proxy inverso (Nginx) y express-rate-limit
 app.set('trust proxy', 1);
-
 app.disable('x-powered-by');
 
 // Middleware para eliminar o enmascarar la cabecera "Server"
 app.use((req, res, next) => {
-  res.removeHeader('Server'); // Eliminar si la genera Express/Node
-  // También puedes establecer un nombre genérico para evitar detección del proxy si Express lo permitiera
+  res.removeHeader('Server');
   res.setHeader('Server', 'Servidor Web Genérico'); 
   next();
 });
@@ -48,7 +48,6 @@ const apiLimiter = rateLimit({
 app.use('/api', apiLimiter);
 
 // cors
-// app.use( cors() );
 app.use(cors({
   origin: [
     "https://www.plataformadebusqueda.gob.mx/"
@@ -67,17 +66,15 @@ app.use(express.urlencoded({ extended: true }));
 // Rutas
 app.use('/api', require('./routes/twoFA'));
 app.use('/api', require('./routes/reportes'));
-// Manejador de rutas no válidas (ej. GET a /loginX)
+// Manejador de rutas no válidas 
 app.all('*', (req, res) => {
   return res.status(404).json({
     ok: false,
-    message: 'ruta no valida'
+    message: 'ruta '
   });
 });
 
-
 const server = app.listen(process.env.PORT ?? 3000, '0.0.0.0', () => {
-  console.log("server OK= " + process.env.PORT);
-
+  console.log("server " + process.env.PORT);
 });
-server.timeout = 300000; // 5 minutos
+server.timeout = 600000; 
